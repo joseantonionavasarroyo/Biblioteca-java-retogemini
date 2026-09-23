@@ -1,0 +1,2 @@
+Libro;LIB-001;Cien años de soledad;Gabriel García Márquez;471
+Revista;REV-001;National Geographic;Varios;302
