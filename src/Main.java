@@ -1,32 +1,92 @@
+import java.util.Scanner;
+
+/**
+ * Clase principal que gestiona la interacción por consola con el usuario.
+ * Permite probar de forma interactiva la adición de materiales y la persistencia en archivos.
+ */
 public class Main {
+
     public static void main(String[] args) {
-        // 1. Instanciamos la biblioteca
+        // Instanciamos la biblioteca y el escáner para leer teclado
         Biblioteca biblioteca = new Biblioteca();
+        Scanner scanner = new Scanner(System.in);
 
-        // 2. Creamos e insertamos materiales
-        Libro libro1 = new Libro("Cien años de soledad", "Gabriel García Márquez", "LIB-001", 471);
-        Revista revista1 = new Revista("National Geographic", "Varios", "REV-001", 302);
+        int opcion = 0;
 
-        biblioteca.agregarMaterial(libro1);
-        biblioteca.agregarMaterial(revista1);
+        // Bucle que mantiene la aplicación activa hasta elegir la opción 6
+        while (opcion != 6) {
+            System.out.println("\n========================================");
+            System.out.println("   SISTEMA DE GESTIÓN DE BIBLIOTECA");
+            System.out.println("========================================");
+            System.out.println("1. Agregar un Libro");
+            System.out.println("2. Agregar una Revista");
+            System.out.println("3. Mostrar Catálogo");
+            System.out.println("4. Guardar Catálogo en Archivo (.txt)");
+            System.out.println("5. Cargar Catálogo desde Archivo (.txt)");
+            System.out.println("6. Salir");
+            System.out.print("Seleccione una opción (1-6): ");
 
-        // Comprobamos por consola que la colección contenga elementos
-        int cantidadAntes = biblioteca.obtenerCatalogoOrdenado().size();
-        System.out.println("Cantidad de materiales en memoria antes de guardar: " + cantidadAntes);
+            try {
+                opcion = Integer.parseInt(scanner.nextLine());
 
-        // 3. Guardamos en el archivo
-        System.out.println("\n=== 1. GUARDANDO EN ARCHIVO ===");
-        biblioteca.guardarEnArchivo("catalogo.txt");
+                switch (opcion) {
+                    case 1:
+                        System.out.print("Ingrese título: ");
+                        String tituloL = scanner.nextLine();
+                        System.out.print("Ingrese autor: ");
+                        String autorL = scanner.nextLine();
+                        System.out.print("Ingrese código (ej. LIB-001): ");
+                        String codigoL = scanner.nextLine();
+                        System.out.print("Ingrese número de páginas: ");
+                        int paginas = Integer.parseInt(scanner.nextLine());
 
-        // 4. Creamos una segunda biblioteca independiente
-        Biblioteca bibliotecaNueva = new Biblioteca();
+                        Libro nuevoLibro = new Libro(tituloL, autorL, codigoL, paginas);
+                        biblioteca.agregarMaterial(nuevoLibro);
+                        System.out.println("¡Libro agregado con éxito a la memoria!");
+                        break;
 
-        // 5. Cargamos los datos desde el archivo generado
-        System.out.println("\n=== 2. CARGANDO DESDE ARCHIVO ===");
-        bibliotecaNueva.cargarArchivo("catalogo.txt");
+                    case 2:
+                        System.out.print("Ingrese título: ");
+                        String tituloR = scanner.nextLine();
+                        System.out.print("Ingrese autor/editorial: ");
+                        String autorR = scanner.nextLine();
+                        System.out.print("Ingrese código (ej. REV-001): ");
+                        String codigoR = scanner.nextLine();
+                        System.out.print("Ingrese número de edición: ");
+                        int edicion = Integer.parseInt(scanner.nextLine());
 
-        // 6. Mostramos el contenido recuperado
-        System.out.println("\n=== 3. CONTENIDO RECUPERADO ===");
-        bibliotecaNueva.mostrarCatalogo();
+                        Revista nuevaRevista = new Revista(tituloR, autorR, codigoR, edicion);
+                        biblioteca.agregarMaterial(nuevaRevista);
+                        System.out.println("¡Revista agregada con éxito a la memoria!");
+                        break;
+
+                    case 3:
+                        System.out.println("\n--- CATÁLOGO ACTUAL ---");
+                        biblioteca.mostrarCatalogo();
+                        break;
+
+                    case 4:
+                        // Llama a la escritura del archivo
+                        biblioteca.guardarEnArchivo("catalogo.txt");
+                        break;
+
+                    case 5:
+                        // Llama a la lectura del archivo
+                        biblioteca.cargarArchivo("catalogo.txt");
+                        break;
+
+                    case 6:
+                        System.out.println("Saliendo del sistema... ¡Hasta pronto!");
+                        break;
+
+                    default:
+                        System.out.println("Opción no válida. Ingrese un número del 1 al 6.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Debe ingresar un número entero válido.");
+            }
+        }
+
+        scanner.close(); // Cerramos el recurso del teclado al finalizar
     }
 }
