@@ -62,6 +62,10 @@ public abstract class Material implements Prestable, Comparable<Material> {
         return tomado;
     }
 
+    public String getTitulo(){return titulo;}
+
+    public String getAutor(){return autor;}
+
     public abstract String getTipo();
 
     @Override

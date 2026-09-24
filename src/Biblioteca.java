@@ -53,6 +53,26 @@ public class Biblioteca {
         return resultado;
     }
 
+    public List<Libro> obtenerLibrosLargos(int minPaginas){
+        return coleccion.values().stream()
+                .filter(entry->entry instanceof Libro)
+                .map(entry->(Libro) entry)
+                .filter(entry->entry.getPaginas()>=minPaginas)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> obtenerTodosLosTitulos(){
+        return coleccion.values().stream()
+                .map(Material::getTitulo)
+                .collect(Collectors.toList());
+    }
+
+    public Long contarMaterialesPorAutor(String autor){
+        return coleccion.values().stream()
+                .filter(m->m.getAutor().equalsIgnoreCase(autor))
+                .count();
+    }
+
     public Material buscarPorCodigo(String codigo){
         return coleccion.get(codigo);
     }

@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -12,6 +13,29 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         int opcion = 0;
+
+        biblioteca.agregarMaterial(new Libro("Cien años de soledad", "Gabriel García Márquez", "LIB-001", 471));
+        biblioteca.agregarMaterial(new Libro("El coronel no tiene quien le escriba", "Gabriel García Márquez", "LIB-002", 110));
+        biblioteca.agregarMaterial(new Libro("Un mundo feliz", "Aldous Huxley", "LIB-003", 288));
+        biblioteca.agregarMaterial(new Revista("National Geographic", "Varios", "REV-001", 302));
+
+        // PRUEBA 1: Filtrar libros con más de 200 páginas
+        System.out.println("=== 1. LIBROS CON MÁS DE 200 PÁGINAS ===");
+        List<Libro> librosLargos = biblioteca.obtenerLibrosLargos(200);
+        for (Libro l : librosLargos) {
+            System.out.println("- " + l.getTitulo() + " (" + l.getPaginas() + " págs)");
+        }
+
+        // PRUEBA 2: Extraer solo los títulos de todos los materiales
+        System.out.println("\n=== 2. LISTA DE TÍTULOS EN LA BIBLIOTECA ===");
+        List<String> titulos = biblioteca.obtenerTodosLosTitulos();
+        System.out.println(titulos);
+
+        // PRUEBA 3: Contar materiales de Gabriel García Márquez
+        System.out.println("\n=== 3. CONTEO DE MATERIALES POR AUTOR ===");
+        String autorBuscar = "Gabriel García Márquez";
+        long cantidad = biblioteca.contarMaterialesPorAutor(autorBuscar);
+        System.out.println("Total de obras de " + autorBuscar + ": " + cantidad);
 
         // Bucle que mantiene la aplicación activa hasta elegir la opción 6
         while (opcion != 6) {
